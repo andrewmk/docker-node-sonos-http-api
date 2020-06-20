@@ -6,13 +6,15 @@ COPY node-sonos /app
 
 RUN mkdir cache && \
   ln -s settings/settings.json && \
-  chown -R node:node static cache && \
+  deluser --remove-home node && \
+  adduser -h /app -D -H sonos-api -u 1030 && \
+  chown -R sonos-api:users static cache && \
   npm install --production && \
   rm -rf /tmp/* /root/.npm
 
 EXPOSE 5005
 
-USER node
+USER sonos-api
 
 HEALTHCHECK --interval=1m --timeout=2s \
   CMD curl -LSs http://localhost:5005 || exit 1
