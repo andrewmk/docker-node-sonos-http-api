@@ -9,6 +9,7 @@ RUN mkdir cache && \
   deluser --remove-home node && \
   adduser -h /app -D -H sonosapi -u 1030 && \
   chown -R sonosapi:users static cache && \
+  chmod -R u+rw static cache && \
   npm install --production && \
   rm -rf /tmp/* /root/.npm
 
